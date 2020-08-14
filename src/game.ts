@@ -17,6 +17,7 @@ export class Game {
   private snake: Snake
   private readonly canvas: Canvas
   public canvasElement: HTMLCanvasElement
+  private started: boolean = false
 
   public constructor () {
     this.snake = new Snake(BOARD_SIZE)
@@ -27,15 +28,28 @@ export class Game {
     this.draw()
   }
 
-  public start (): void {
+  public init (): void {
     document.addEventListener('keyup', event => this.onKeyUp(event))
-    setTimeout(() => this.loop(), 500)
+  }
+
+  private start (): void {
+    this.started = true
+    this.loop()
+  }
+
+  private reset (): void {
+    this.snake = new Snake(BOARD_SIZE)
+    this.draw()
+    this.started = false
   }
 
   private loop (): void {
     this.snake.next()
 
-    if (this.snake.gameOver) this.snake = new Snake(BOARD_SIZE)
+    if (this.snake.gameOver) {
+      this.reset()
+      return
+    }
 
     this.draw()
     setTimeout(() => this.loop(), 500)
@@ -53,6 +67,8 @@ export class Game {
     } else if (DIRECTION_KEYS.down.includes(key)) {
       this.snake.setDirection('down')
     }
+
+    if (!this.started && this.snake.direction !== null) this.start()
   }
 
   private draw (): void {

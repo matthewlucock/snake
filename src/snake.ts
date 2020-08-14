@@ -11,19 +11,15 @@ const DIRECTION_VECTORS: Readonly<{ [K in Direction]: Vector }> = {
 
 export class Snake {
   public pieces: Vector[]
-  public direction: Direction
+  public direction: Direction | null
   private head: Vector
   public target: Vector
   public gameOver: boolean = false
 
   public constructor (private readonly size: Vector) {
     this.head = size.scale(1 / 2).round()
-    this.pieces = [
-      this.head,
-      this.head.add(DIRECTION_VECTORS.left),
-      this.head.add(DIRECTION_VECTORS.left.scale(2))
-    ]
-    this.direction = 'right'
+    this.pieces = [this.head]
+    this.direction = null
     this.target = this.getNewTarget()
   }
 
@@ -36,6 +32,8 @@ export class Snake {
   }
 
   public next (): void {
+    if (this.direction === null) throw new Error('Snake moved without direction')
+
     this.head = this.head.add(DIRECTION_VECTORS[this.direction])
 
     if (this.isPiece(this.head) || this.positionIsOutOfBounds(this.head)) {

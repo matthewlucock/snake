@@ -10,4 +10,4 @@ if (root === null) throw new Error('No root snake element')
 
 root.append(game.canvasElement)
 
-game.start()
+game.init()
