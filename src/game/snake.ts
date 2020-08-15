@@ -20,7 +20,7 @@ export class Snake {
   public readonly emitter = mitt()
 
   public constructor (private readonly size: Vector) {
-    this.head = size.scale(1 / 2).round()
+    this.head = size.scale(1 / 2).floor()
     this.pieces = [this.head]
     this.direction = null
     this.target = this.getNewTarget()

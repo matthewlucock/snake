@@ -1,12 +1,14 @@
 import shuffleArray from 'shuffle-array'
 
-import { UNIT_VECTOR } from './vector'
+import { Vector } from './vector'
 import { Snake } from './snake'
 import type { Direction } from './snake'
 import { Canvas } from './canvas'
 
-const BOARD_SIZE = UNIT_VECTOR.scale(20)
 const GRID_SQUARE_SIZE = 30
+export const getMaximumGridSizeFromContainer = (container: HTMLElement): Vector => (
+  new Vector(container.clientWidth, container.clientHeight).scale(1 / GRID_SQUARE_SIZE).floor()
+)
 
 const SNAKE_COLOR = 'hsl(0, 0%, 100%)'
 
@@ -21,8 +23,8 @@ const DIRECTION_KEYS: Readonly<{ [K in Direction]: readonly string[] }> = {
 }
 
 export class Game {
-  private snake: Snake = new Snake(BOARD_SIZE)
-  private readonly canvas: Canvas = new Canvas(BOARD_SIZE.scale(GRID_SQUARE_SIZE))
+  private snake: Snake = new Snake(this.gridSize)
+  private readonly canvas: Canvas = new Canvas(this.gridSize.scale(GRID_SQUARE_SIZE))
   public canvasElement: HTMLCanvasElement = this.canvas.element
 
   private readonly targetColorQueue = shuffleArray(TARGET_COLORS)
@@ -30,7 +32,7 @@ export class Game {
 
   public readonly emitter = this.snake.emitter
 
-  public constructor () {
+  public constructor (private readonly gridSize: Vector) {
     this.draw()
 
     this.snake.emitter.on('target-reached', (): void => {
@@ -48,7 +50,7 @@ export class Game {
   }
 
   private reset (): void {
-    this.snake = new Snake(BOARD_SIZE)
+    this.snake = new Snake(this.gridSize)
     this.draw()
     this.started = false
   }

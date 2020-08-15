@@ -13,11 +13,10 @@ export class Vector {
     return new Vector(this.x * scalar, this.y * scalar)
   }
 
-  public round (): Vector {
-    return new Vector(Math.round(this.x), Math.round(this.y))
+  public floor(): Vector {
+    return new Vector(Math.floor(this.x), Math.floor(this.y))
   }
 }
 
 export const UNIT_VECTOR_X: Vector = new Vector(1, 0)
 export const UNIT_VECTOR_Y: Vector = new Vector(0, 1)
-export const UNIT_VECTOR: Vector = UNIT_VECTOR_X.add(UNIT_VECTOR_Y)

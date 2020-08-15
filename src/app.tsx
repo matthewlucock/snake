@@ -2,7 +2,7 @@ import * as preact from 'preact'
 import { useState, useRef, useEffect } from 'preact/hooks'
 import { styled, css } from 'goober'
 
-import { Game } from './game'
+import { Game, getMaximumGridSizeFromContainer } from './game'
 
 const TRANSITION_DURATION = '.25s'
 const MAIN_BACKGROUND = 'hsl(0, 0%, 15%)'
@@ -80,7 +80,7 @@ export const App: preact.FunctionComponent = () => {
   const game = useRef<Game>()
 
   useEffect(() => {
-    game.current = new Game()
+    game.current = new Game(getMaximumGridSizeFromContainer(gameContainer.current))
 
     game.current.canvasElement.className = CanvasStyles
     gameContainer.current.append(game.current.canvasElement)
