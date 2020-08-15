@@ -12,12 +12,12 @@ const DIRECTION_VECTORS: Readonly<{ [K in Direction]: Vector }> = {
 }
 
 export class Snake {
-  public pieces: Vector[]
+  public readonly pieces: Vector[]
   public direction: Direction | null
   private head: Vector
   public target: Vector
   public gameOver: boolean = false
-  public emitter = mitt()
+  public readonly emitter = mitt()
 
   public constructor (private readonly size: Vector) {
     this.head = size.scale(1 / 2).round()

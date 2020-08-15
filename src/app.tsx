@@ -81,11 +81,11 @@ export const App: preact.FunctionComponent = () => {
 
   useEffect(() => {
     game.current = new Game()
-  
+
     game.current.canvasElement.className = CanvasStyles
     gameContainer.current.append(game.current.canvasElement)
 
-    game.current.emitter.on('target-reached', () => setScore(score => score + 1))
+    game.current.emitter.on('target-reached', (): void => setScore(score => score + 1))
 
     game.current.init()
   }, [])
