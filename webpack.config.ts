@@ -13,6 +13,15 @@ const config: webpack.Configuration = {
   module: {
     rules: [
       { test: /\.tsx?$/, use: 'ts-loader' },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          { loader: 'css-loader', options: { modules: true } },
+          { loader: 'postcss-loader', options: { plugins: [require('autoprefixer')] } },
+          'sass-loader'
+        ]
+      },
       { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'] }
     ]
   },

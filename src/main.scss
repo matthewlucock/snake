@@ -1,0 +1,79 @@
+@use 'sass:color';
+
+$transition-duration: .25s;
+
+$main-background: color.adjust(black, $lightness: 15%);
+$lighter-background: color.adjust($main-background, $lightness: +10%);
+$lightest-background: color.adjust($main-background, $lightness: +15%);
+$snake-background: color.adjust($main-background, $lightness: -5%);
+
+$game-bar-height: 10vh;
+
+.wrapper {
+  font-size: 30px;
+  font-family: sans-serif;
+  font-weight: lighter;
+  background: $main-background;
+  color: white;
+  user-select: none;
+}
+
+.titleScreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $main-background;
+  visibility: hidden;
+  opacity: 0;
+  transition-property: visibility, opacity;
+  transition-duration: $transition-duration;
+
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.title {
+  font-size: 4em;
+  margin-bottom: .5em;
+}
+
+.playButton {
+  padding: .5em 1em;
+  border-radius: 2em;
+  background: $lighter-background;
+  cursor: pointer;
+  transition-property: background;
+  transition-duration: $transition-duration;
+
+  &:hover {
+    background: $lightest-background;
+  }
+}
+
+.gameWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.gameBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: $game-bar-height;
+}
+
+.gameContainer {
+  height: 100vh - $game-bar-height;
+}
+
+.gameCanvas {
+  background: $snake-background;
+}
