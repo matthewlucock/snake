@@ -13,7 +13,7 @@ export class Vector {
     return new Vector(this.x * scalar, this.y * scalar)
   }
 
-  public floor(): Vector {
+  public floor (): Vector {
     return new Vector(Math.floor(this.x), Math.floor(this.y))
   }
 }
