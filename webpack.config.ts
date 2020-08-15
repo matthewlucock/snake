@@ -8,10 +8,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 const config: webpack.Configuration = {
   entry: path.resolve('src/index.tsx'),
   output: { path: path.resolve('dist') },
-  resolve: {
-    extensions: ['.js', '.ts', '.tsx'],
-    alias: { react: 'preact/compat', 'react-dom': 'preact/compat' }
-  },
+  resolve: { extensions: ['.js', '.ts', '.tsx'] },
 
   module: {
     rules: [
