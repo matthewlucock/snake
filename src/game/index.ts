@@ -4,7 +4,7 @@ import type { Direction } from './snake'
 import { Canvas } from './canvas'
 
 const BOARD_SIZE = UNIT_VECTOR.scale(20)
-const SQUARE_SIZE = 30
+const GRID_SQUARE_SIZE = 30
 
 const DIRECTION_KEYS: Readonly<{ [K in Direction]: readonly string[] }> = {
   left: ['a', 'ArrowLeft'],
@@ -15,7 +15,7 @@ const DIRECTION_KEYS: Readonly<{ [K in Direction]: readonly string[] }> = {
 
 export class Game {
   private snake: Snake = new Snake(BOARD_SIZE)
-  private readonly canvas: Canvas = new Canvas(BOARD_SIZE.scale(SQUARE_SIZE))
+  private readonly canvas: Canvas = new Canvas(BOARD_SIZE.scale(GRID_SQUARE_SIZE))
   public canvasElement: HTMLCanvasElement = this.canvas.element
 
   private started: boolean = false
@@ -73,9 +73,9 @@ export class Game {
     this.canvas.clear()
 
     for (const piece of this.snake.pieces) {
-      this.canvas.drawSquare(piece.scale(SQUARE_SIZE), SQUARE_SIZE, 'green')
+      this.canvas.drawSquare(piece.scale(GRID_SQUARE_SIZE), GRID_SQUARE_SIZE, 'green')
     }
 
-    this.canvas.drawSquare(this.snake.target.scale(SQUARE_SIZE), SQUARE_SIZE, 'blue')
+    this.canvas.drawCircle(this.snake.target.scale(GRID_SQUARE_SIZE), GRID_SQUARE_SIZE, 'blue')
   }
 }

@@ -12,9 +12,18 @@ export class Canvas {
     this.ctx = this.element.getContext('2d') as CanvasRenderingContext2D
   }
 
-  public drawSquare (position: Vector, size: number, color: string): void {
+  public drawSquare ({ x, y }: Vector, size: number, color: string): void {
     this.ctx.fillStyle = color
-    this.ctx.fillRect(position.x, position.y, size, size)
+    this.ctx.fillRect(x, y, size, size)
+  }
+
+  public drawCircle ({ x, y }: Vector, size: number, color: string): void {
+    const radius = size / 2
+    this.ctx.beginPath()
+    this.ctx.arc(x + radius, y + radius, radius, 0, 2 * Math.PI)
+
+    this.ctx.fillStyle = color
+    this.ctx.fill()
   }
 
   public clear (): void {
