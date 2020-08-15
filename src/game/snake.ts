@@ -1,3 +1,5 @@
+import mitt from 'mitt'
+
 import { Vector, UNIT_VECTOR_X, UNIT_VECTOR_Y } from './vector'
 
 export type Direction = 'left' | 'right' | 'up' | 'down'
@@ -15,6 +17,7 @@ export class Snake {
   private head: Vector
   public target: Vector
   public gameOver: boolean = false
+  public emitter = mitt()
 
   public constructor (private readonly size: Vector) {
     this.head = size.scale(1 / 2).round()
@@ -45,6 +48,7 @@ export class Snake {
 
     if (this.head.equals(this.target)) {
       this.target = this.getNewTarget()
+      this.emitter.emit('target-reached')
     } else if (this.pieces.length > 1) {
       this.pieces.pop()
     }

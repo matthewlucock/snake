@@ -14,17 +14,15 @@ const DIRECTION_KEYS: Readonly<{ [K in Direction]: readonly string[] }> = {
 }
 
 export class Game {
-  private snake: Snake
-  private readonly canvas: Canvas
-  public canvasElement: HTMLCanvasElement
+  private snake: Snake = new Snake(BOARD_SIZE)
+  private readonly canvas: Canvas = new Canvas(BOARD_SIZE.scale(SQUARE_SIZE))
+  public canvasElement: HTMLCanvasElement = this.canvas.element
+
   private started: boolean = false
 
+  public emitter = this.snake.emitter
+
   public constructor () {
-    this.snake = new Snake(BOARD_SIZE)
-
-    this.canvas = new Canvas(BOARD_SIZE.scale(SQUARE_SIZE))
-    this.canvasElement = this.canvas.element
-
     this.draw()
   }
 

@@ -74,14 +74,19 @@ const CanvasStyles = css`
 
 export const App: preact.FunctionComponent = () => {
   const [playing, setPlaying] = useState(false)
+  const [score, setScore] = useState(0)
 
   const gameContainer = useRef<HTMLDivElement>()
   const game = useRef<Game>()
 
   useEffect(() => {
     game.current = new Game()
+  
     game.current.canvasElement.className = CanvasStyles
     gameContainer.current.append(game.current.canvasElement)
+
+    game.current.emitter.on('target-reached', () => setScore(score => score + 1))
+
     game.current.init()
   }, [])
 
@@ -93,7 +98,7 @@ export const App: preact.FunctionComponent = () => {
       </TitleScreen>
 
       <GameWrapper>
-        <GameBar>Lorem ipsum dolor sit amet</GameBar>
+        <GameBar>score: {score}</GameBar>
         <div ref={gameContainer} style={{ height: `${100 - GAME_BAR_HEIGHT_VH}vh` }} />
       </GameWrapper>
     </Wrapper>

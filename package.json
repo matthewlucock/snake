@@ -32,6 +32,7 @@
   "dependencies": {
     "goober": "^2.0.5",
     "goober-autoprefixer": "^1.2.1",
+    "mitt": "^2.1.0",
     "preact": "^10.4.7",
     "ress": "^3.0.0"
   }
