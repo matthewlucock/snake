@@ -29,8 +29,12 @@ const config: webpack.Configuration = {
 
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({ template: path.resolve('src/index.html') }),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.resolve('src/index.html'),
+      inject: 'head',
+      scriptLoading: 'defer'
+    })
   ],
 
   stats: { all: false, assets: true }
