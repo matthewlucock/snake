@@ -1,9 +1,8 @@
 import * as preact from 'preact'
 
-import { App } from './app'
-
 import 'ress'
-import './static/main.css'
+
+import { App } from './app'
 
 const root = document.getElementById('snake')
 if (root === null) throw new Error('No root element')
