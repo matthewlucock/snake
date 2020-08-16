@@ -1,12 +1,17 @@
 {
   "compilerOptions": {
     "alwaysStrict": true,
+    "baseUrl": ".",
     "esModuleInterop": true,
     "jsx": "react",
     "jsxFactory": "preact.createElement",
     "moduleResolution": "node",
+    "plugins": [
+      { "name": "typescript-plugin-css-modules", "options": { "customMatcher": "\\.scss$" } }
+    ],
     "strict": true,
     "target": "es2019",
-    "baseUrl": "."
-  }
+  },
+
+  "include": ["src/**/*", "src/.d.ts", "webpack.config.ts"]
 }
