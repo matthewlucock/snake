@@ -11,12 +11,18 @@ const DIRECTION_VECTORS: Readonly<{ [K in Direction]: Vector }> = {
   down: UNIT_VECTOR_Y
 }
 
+const directionsAreConflicting = (a: Direction, b: Direction): boolean => (
+  (a === 'left' && b === 'right') ||
+  (a === 'right' && b === 'left') ||
+  (a === 'up' && b === 'down') ||
+  (a === 'down' && b === 'up')
+)
+
 export class Snake {
   public readonly pieces: Vector[]
   public direction: Direction | null
   private head: Vector
   public target: Vector
-  public gameOver: boolean = false
   public readonly emitter = mitt()
 
   public constructor (private readonly size: Vector) {
@@ -40,7 +46,7 @@ export class Snake {
     this.head = this.head.add(DIRECTION_VECTORS[this.direction])
 
     if (this.isPiece(this.head) || this.positionIsOutOfBounds(this.head)) {
-      this.gameOver = true
+      this.emitter.emit('game-over')
       return
     }
 
@@ -55,15 +61,7 @@ export class Snake {
   }
 
   public setDirection (direction: Direction): void {
-    if (
-      (direction === this.direction) ||
-      // Prevent conflicting direction inputs
-      (direction === 'left' && this.direction === 'right') ||
-      (direction === 'right' && this.direction === 'left') ||
-      (direction === 'up' && this.direction === 'down') ||
-      (direction === 'down' && this.direction === 'up')
-    ) return
-
+    if (this.direction !== null && directionsAreConflicting(direction, this.direction)) return
     this.direction = direction
   }
 
