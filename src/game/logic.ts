@@ -1,24 +1,10 @@
 import mitt from 'mitt'
 
-import { Vector, UNIT_VECTOR_X, UNIT_VECTOR_Y } from './vector'
+import { Vector } from './vector'
+import type { Direction } from './direction'
+import { DIRECTION_VECTORS, directionsAreConflicting } from './direction'
 
-export type Direction = 'left' | 'right' | 'up' | 'down'
-
-const DIRECTION_VECTORS: Readonly<{ [K in Direction]: Vector }> = {
-  left: UNIT_VECTOR_X.scale(-1),
-  right: UNIT_VECTOR_X,
-  up: UNIT_VECTOR_Y.scale(-1),
-  down: UNIT_VECTOR_Y
-}
-
-const directionsAreConflicting = (a: Direction, b: Direction): boolean => (
-  (a === 'left' && b === 'right') ||
-  (a === 'right' && b === 'left') ||
-  (a === 'up' && b === 'down') ||
-  (a === 'down' && b === 'up')
-)
-
-export class Snake {
+export class Logic {
   public readonly pieces: Vector[]
   public direction: Direction | null
   private head: Vector
