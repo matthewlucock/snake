@@ -16,10 +16,3 @@ export const directionsAreConflicting = (a: Direction, b: Direction): boolean =>
   (a === 'up' && b === 'down') ||
   (a === 'down' && b === 'up')
 )
-
-export const DIRECTION_KEYS: ReadonlyMap<Direction, readonly string[]> = new Map([
-  ['left', ['a', 'ArrowLeft']],
-  ['right', ['d', 'ArrowRight']],
-  ['up', ['w', 'ArrowUp']],
-  ['down', ['s', 'ArrowDown']]
-])

@@ -1,13 +1,4 @@
-@use 'sass:color';
-
-$transition-duration: .25s;
-
-$main-background: color.adjust(black, $lightness: 15%);
-$lighter-background: color.adjust($main-background, $lightness: +10%);
-$lightest-background: color.adjust($main-background, $lightness: +15%);
-$snake-background: color.adjust($main-background, $lightness: -5%);
-
-$game-bar-height: 10vh;
+@use 'globals' as *;
 
 body {
   font-size: 30px;
@@ -18,7 +9,7 @@ body {
   user-select: none;
 }
 
-.titleScreen {
+.mainScreen {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -31,6 +22,7 @@ body {
   background: $main-background;
   visibility: hidden;
   opacity: 0;
+  z-index: 2;
   transition-property: visibility, opacity;
   transition-duration: $transition-duration;
 
@@ -61,19 +53,4 @@ body {
 .gameWrapper {
   display: flex;
   flex-direction: column;
-}
-
-.gameBar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: $game-bar-height;
-}
-
-.gameContainer {
-  height: 100vh - $game-bar-height;
-}
-
-.gameCanvas {
-  background: $snake-background;
 }

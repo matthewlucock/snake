@@ -7,7 +7,14 @@
     "jsxFactory": "preact.createElement",
     "moduleResolution": "node",
     "plugins": [
-      { "name": "typescript-plugin-css-modules", "options": { "customMatcher": "\\.scss$" } }
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "classnameTransform": "camelCaseOnly",
+          "customMatcher": "\\.scss$",
+          "rendererOptions": { "sass": { "includePaths": ["src/av"] } }
+        }
+      }
     ],
     "strict": true,
     "target": "es2019",

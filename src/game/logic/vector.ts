@@ -1,6 +1,10 @@
 export class Vector {
   public constructor (public x: number, public y: number) {}
 
+  public get string (): string {
+    return [this.x, this.y].join(',')
+  }
+
   public equals ({ x, y }: Vector): boolean {
     return this.x === x && this.y === y
   }

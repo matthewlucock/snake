@@ -1,0 +1,9 @@
+@use 'sass:color';
+
+$transition-duration: .25s;
+
+$main-background: color.adjust(black, $lightness: 15%);
+$lighter-background: color.adjust($main-background, $lightness: +10%);
+$lightest-background: color.adjust($main-background, $lightness: +15%);
+
+$game-bar-height: 10vh;

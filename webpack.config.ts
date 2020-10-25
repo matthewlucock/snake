@@ -35,9 +35,7 @@ const config: webpack.Configuration = {
       inject: 'head',
       scriptLoading: 'defer'
     })
-  ],
-
-  stats: { all: false, assets: true }
+  ]
 }
 
 export default config

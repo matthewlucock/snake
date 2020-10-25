@@ -1,0 +1,54 @@
+@use '../../globals' as *;
+
+$high-score-animation-duration: $transition-duration * 5;
+
+.bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: $game-bar-height;
+}
+
+.highScore {
+  font-size: .5em;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-top: .5em;
+}
+
+.originalHighScore {
+  $width: 6em;
+
+  position: absolute;
+  left: -($width / 2);
+  width: $width;
+  text-align: center;
+  color: white;
+  transition-property: left;
+  transition-duration: $high-score-animation-duration;
+
+  .highScoreBeaten & {
+    left: -7em;
+  }
+}
+
+.highScoreBeatenMessage {
+  @keyframes in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: .75;
+    }
+  }
+
+  position: absolute;
+  left: 1em;
+  width: 8em;
+  animation-name: in;
+  animation-duration: $high-score-animation-duration;
+  animation-fill-mode: forwards;
+}

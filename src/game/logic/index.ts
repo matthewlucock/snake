@@ -1,5 +1,3 @@
-import mitt from 'mitt'
-
 import { Vector } from './vector'
 import type { Direction } from './direction'
 import { DIRECTION_VECTORS, directionsAreConflicting } from './direction'
@@ -9,7 +7,9 @@ export class Logic {
   public direction: Direction | null
   private head: Vector
   public target: Vector
-  public readonly emitter = mitt()
+
+  public targetReached: boolean = false
+  public gameOver: boolean = false
 
   public constructor (private readonly size: Vector) {
     this.head = size.scale(1 / 2).floor()
@@ -29,10 +29,12 @@ export class Logic {
   public next (): void {
     if (this.direction === null) throw new Error('Snake moved without direction')
 
+    this.targetReached = false
+
     this.head = this.head.add(DIRECTION_VECTORS[this.direction])
 
     if (this.isPiece(this.head) || this.positionIsOutOfBounds(this.head)) {
-      this.emitter.emit('game-over')
+      this.gameOver = true
       return
     }
 
@@ -40,7 +42,7 @@ export class Logic {
 
     if (this.head.equals(this.target)) {
       this.target = this.getNewTarget()
-      this.emitter.emit('target-reached')
+      this.targetReached = true
     } else if (this.pieces.length > 1) {
       this.pieces.pop()
     }

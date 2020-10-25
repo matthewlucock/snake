@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "clsx": "^1.1.1",
-    "mitt": "^2.1.0",
     "preact": "^10.4.7",
     "ress": "^3.0.0",
     "shuffle-array": "^1.0.1"
