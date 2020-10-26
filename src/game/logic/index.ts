@@ -1,6 +1,6 @@
 import { Vector } from './vector'
 import type { Direction } from './direction'
-import { DIRECTION_VECTORS, directionsAreConflicting } from './direction'
+import { DIRECTION_VECTORS, OPPOSITE_DIRECTIONS } from './direction'
 
 export class Logic {
   public readonly pieces: Vector[]
@@ -49,7 +49,7 @@ export class Logic {
   }
 
   public setDirection (direction: Direction): void {
-    if (this.direction !== null && directionsAreConflicting(direction, this.direction)) return
+    if (this.direction !== null && OPPOSITE_DIRECTIONS[direction] === this.direction) return
     this.direction = direction
   }
 

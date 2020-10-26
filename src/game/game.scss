@@ -19,13 +19,8 @@ $snake-color: white;
 }
 
 @keyframes target-animation {
-  from {
-    transform: scale(0);
-  }
-
-  to {
-    transform: scale(1);
-  }
+  from { transform: scale(0) }
+  to { transform: scale(1) }
 }
 
 .target {

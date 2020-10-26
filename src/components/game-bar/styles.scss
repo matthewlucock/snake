@@ -36,13 +36,8 @@ $high-score-animation-duration: $transition-duration * 5;
 
 .highScoreBeatenMessage {
   @keyframes in {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: .75;
-    }
+    from { opacity: 0 }
+    to { opacity: .75 }
   }
 
   position: absolute;

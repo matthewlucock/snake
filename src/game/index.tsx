@@ -5,7 +5,7 @@ import shuffleArray from 'shuffle-array'
 import { useForceUpdate } from '../util'
 import { Logic } from './logic'
 import type { Direction } from './logic/direction'
-import { getMaximumGridSizeFromContainer, getOffsetsForGridVector } from './grid'
+import { getMaximumGridSizeFromContainer, getGridOffsetsForVector } from './grid'
 
 import { GridSquare } from './components/grid-square'
 
@@ -45,7 +45,7 @@ export const Game: preact.FunctionComponent<Props> = props => {
 
     logic.current = new Logic(gridSize)
 
-    const { left: width, top: height } = getOffsetsForGridVector(gridSize)
+    const { left: width, top: height } = getGridOffsetsForVector(gridSize)
     body.current.style.width = width
     body.current.style.height = height
 

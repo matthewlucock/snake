@@ -10,9 +10,9 @@ export const DIRECTION_VECTORS: Readonly<{ [K in Direction]: Vector }> = {
   down: UNIT_VECTOR_Y
 }
 
-export const directionsAreConflicting = (a: Direction, b: Direction): boolean => (
-  (a === 'left' && b === 'right') ||
-  (a === 'right' && b === 'left') ||
-  (a === 'up' && b === 'down') ||
-  (a === 'down' && b === 'up')
-)
+export const OPPOSITE_DIRECTIONS: Readonly<{ [K in Direction]: Direction }> = {
+  left: 'right',
+  right: 'left',
+  up: 'down',
+  down: 'up'
+}
