@@ -2,6 +2,8 @@ import * as preact from 'preact'
 import { useRef, useState } from 'preact/hooks'
 import clsx from 'clsx'
 
+import { LabelledValue } from '../labelled-value'
+
 import styles from './styles.scss'
 
 type Props = Readonly<{
@@ -37,7 +39,7 @@ export const MainScreen: preact.FunctionComponent<Props> = props => {
         <div
           className={clsx(styles.highScoreContainer, props.highScore > 0 && styles.highScoreExists)}
         >
-          <div>high score: {displayedHighScore}</div>
+          <LabelledValue label='high score'>{displayedHighScore}</LabelledValue>
           <div className={styles.clearHighScore} onClick={clearHighScore}>
             {confirm ? 'sure?' : 'clear'}
           </div>

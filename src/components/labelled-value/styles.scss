@@ -1,0 +1,10 @@
+@use '../../globals' as *;
+
+.container {
+  display: flex;
+}
+
+.label {
+  margin-right: .5em;
+  opacity: .5;
+}
