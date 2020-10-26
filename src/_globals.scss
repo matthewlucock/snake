@@ -8,3 +8,14 @@ $lightest-background: color.adjust($main-background, $lightness: +15%);
 $snake-background: color.adjust($main-background, $lightness: -5%);
 
 $game-bar-height: 10vh;
+
+%button {
+  background: $lighter-background;
+  cursor: pointer;
+  transition-property: background;
+  transition-duration: $transition-duration;
+
+  &:hover {
+    background: $lightest-background;
+  }
+}

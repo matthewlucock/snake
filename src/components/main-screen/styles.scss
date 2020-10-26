@@ -25,18 +25,39 @@
 
 .title {
   font-size: 4em;
-  margin-bottom: .5em;
+  height: 1em;
+  margin-bottom: .375em;
+}
+
+.highScoreContainer {
+  font-size: .8em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition-property: visibility, opacity;
+  transition-duration: $transition-duration;
+
+  &.highScoreExists {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.clearHighScore {
+  @extend %button;
+  font-size: .9em;
+  width: 3.5em;
+  padding: .25em .5em;
+  margin-top: .25em;
+  border-radius: 1em;
+  text-align: center;
 }
 
 .playButton {
+  @extend %button;
   padding: .5em 1em;
+  margin-top: 1.5em;
   border-radius: 2em;
-  background: $lighter-background;
-  cursor: pointer;
-  transition-property: background;
-  transition-duration: $transition-duration;
-
-  &:hover {
-    background: $lightest-background;
-  }
 }

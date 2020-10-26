@@ -73,13 +73,24 @@ const App: preact.FunctionComponent = () => {
     }
   }, [score])
 
+  const clearHighScore = useCallback((): void => {
+    setHighScore(0)
+    localStorage.setItem(HIGH_SCORE_STORAGE_KEY, '0')
+  }, [])
+
   /**
    * Component
    */
 
   return (
     <preact.Fragment>
-      <MainScreen playing={playing} gameOver={gameOver} highScore={highScore} play={play} />
+      <MainScreen
+        playing={playing}
+        gameOver={gameOver}
+        highScore={highScore}
+        clearHighScore={clearHighScore}
+        play={play}
+      />
 
       <div className={styles.gameWrapper}>
         <GameBar
