@@ -16,3 +16,10 @@ export const OPPOSITE_DIRECTIONS: Readonly<{ [K in Direction]: Direction }> = {
   up: 'down',
   down: 'up'
 }
+
+export const DIRECTION_KEYS: ReadonlyMap<Direction, readonly string[]> = new Map([
+  ['left', ['a', 'ArrowLeft']],
+  ['right', ['d', 'ArrowRight']],
+  ['up', ['w', 'ArrowUp']],
+  ['down', ['s', 'ArrowDown']]
+])

@@ -1,9 +1,9 @@
 import * as preact from 'preact'
-import { useState, useCallback, useEffect, useLayoutEffect } from 'preact/hooks'
+import { useState, useRef, useCallback, useEffect, useLayoutEffect } from 'preact/hooks'
 import clsx from 'clsx'
 
 import { GameBar } from './components/game-bar'
-import { Game } from './game'
+import { Game, getMaximumGridSizeFromContainer } from './game'
 
 import 'ress'
 import styles from './main.scss'
@@ -16,14 +16,15 @@ const App: preact.FunctionComponent = () => {
   const [score, setScore] = useState<number>(0)
   const [highScore, setHighScore] = useState<number>(0)
   const [originalHighScore, setOriginalHighScore] = useState<number>(0)
-  const [gameKey, setGameKey] = useState<number>(0)
+
+  const gameContainer = useRef<HTMLDivElement>()
+  const game = useRef<Game | null>(null)
 
   /**
    * Game control
    */
 
   const play = useCallback((): void => {
-    setGameKey(Math.random())
     setScore(0)
     setOriginalHighScore(highScore)
     setPlaying(true)
@@ -34,6 +35,21 @@ const App: preact.FunctionComponent = () => {
     setGameOver(true)
     setPlaying(false)
   }, [])
+
+  useLayoutEffect(() => {
+    if (!playing) return
+
+    if (game.current !== null) game.current.destroy()
+    game.current = new Game(getMaximumGridSizeFromContainer(gameContainer.current))
+
+    game.current.canvas.element.className = styles.gameCanvas
+    gameContainer.current.append(game.current.canvas.element)
+
+    game.current.emitter.on('target-reached', onTargetReached)
+    game.current.emitter.on('game-over', onGameOver)
+
+    game.current.init()
+  }, [playing])
 
   /**
    * High score
@@ -77,11 +93,7 @@ const App: preact.FunctionComponent = () => {
           highScoreBeaten={highScore > originalHighScore}
         />
 
-        <Game
-          key={gameKey}
-          onTargetReached={onTargetReached}
-          onGameOver={onGameOver}
-        />
+        <div ref={gameContainer} className={styles.gameContainer} />
       </div>
     </preact.Fragment>
   )
