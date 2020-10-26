@@ -13,23 +13,78 @@ $snake-color: white;
   background: $background;
 }
 
-.piece {
+.gridSquare {
   position: absolute;
+  animation-duration: .5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  @keyframes left-fill {
+    from {padding-left: 30px}
+    to {padding-left: 0}
+  }
+
+  &.left {
+    animation-name: left-fill;
+  }
+
+  @keyframes right-fill {
+    from { padding-right: 30px }
+    to { padding-right: 0; }
+  }
+
+  &.right {
+    padding-right: 0;
+    animation-name: right-fill;
+  }
+
+  @keyframes up-fill {
+    from {padding-top: 30px}
+    to {padding-top: 0}
+  }
+
+  &.up {
+    animation-name: up-fill;
+  }
+
+  @keyframes down-fill {
+    from { padding-bottom: 30px }
+    to { padding-bottom: 0; }
+  }
+
+  &.down {
+    animation-name: down-fill;
+  }
+
+  &.tail {
+    animation-direction: reverse;
+
+    &.left { animation-name: right-fill }
+    &.right { animation-name: left-fill; padding-left: 30px; }
+    &.up { animation-name: down-fill }
+    &.down { animation-name: up-fill }
+  }
+}
+
+%grid-item {
+  height: 100%;
+  width: 100%;
+}
+
+.piece {
+  @extend %grid-item;
   background: $snake-color;
 }
 
-@keyframes target-animation {
-  from {
-    transform: scale(0);
-  }
-
-  to {
-    transform: scale(1);
-  }
-}
-
 .target {
-  position: absolute;
+  @extend %grid-item;
   border-radius: 100%;
-  animation: target-animation .25s;
+
+  @keyframes in {
+    from { transform: scale(0) }
+    to { transform: scale(1) }
+  }
+
+  animation-name: in;
+  animation-duration: .25s;
 }

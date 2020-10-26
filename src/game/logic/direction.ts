@@ -16,3 +16,10 @@ export const directionsAreConflicting = (a: Direction, b: Direction): boolean =>
   (a === 'up' && b === 'down') ||
   (a === 'down' && b === 'up')
 )
+
+export const getOppositeDirection = (direction: Direction): Direction => {
+  if (direction === 'left') return 'right'
+  if (direction === 'right') return 'left'
+  if (direction === 'up') return 'down'
+  return 'up'
+}

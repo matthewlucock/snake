@@ -1,15 +1,17 @@
 import * as preact from 'preact'
 import { useRef, useEffect, useCallback } from 'preact/hooks'
+import clsx from 'clsx'
 import shuffleArray from 'shuffle-array'
 
 import { useForceUpdate } from '../util'
-import { Logic } from './logic'
+import { Logic, Piece } from './logic'
 import type { Direction } from './logic/direction'
-import { getMaximumGridSizeFromContainer, getOffsetsForGridVector } from './grid'
+import { getMaximumGridSizeFromContainer, getGridOffsetsForVector } from './grid'
 
 import { GridSquare } from './components/grid-square'
 
 import styles from './game.scss'
+
 
 const TARGET_COLORS = [50, 150, 200, 300].map((h: number): string => `hsl(${h}, 100%, 50%)`)
 
@@ -20,17 +22,26 @@ export const DIRECTION_KEYS: ReadonlyMap<Direction, readonly string[]> = new Map
   ['down', ['s', 'ArrowDown']]
 ])
 
+const getPieceFillClassName = ({ direction }: Piece): string => {
+  console.log(direction)
+  if (direction === 'left') return styles.left
+  if (direction === 'right') return styles.right
+  if (direction === 'up') return styles.up
+  if (direction === 'down') return styles.down
+  return ''
+}
+
 type Props = Readonly<{
   onTargetReached: () => void
   onGameOver: () => void
 }>
-
+let a = Date.now()
 export const Game: preact.FunctionComponent<Props> = props => {
   const container = useRef<HTMLDivElement>()
   const body = useRef<HTMLDivElement>()
   const logic = useRef<Logic>()
 
-  const tickDuration = useRef<number>(400)
+  const tickDuration = useRef<number>(500)
   const looping = useRef<boolean>(false)
   const targetColorQueue = useRef<string[]>()
 
@@ -45,7 +56,7 @@ export const Game: preact.FunctionComponent<Props> = props => {
 
     logic.current = new Logic(gridSize)
 
-    const { left: width, top: height } = getOffsetsForGridVector(gridSize)
+    const { left: width, top: height } = getGridOffsetsForVector(gridSize)
     body.current.style.width = width
     body.current.style.height = height
 
@@ -103,22 +114,44 @@ export const Game: preact.FunctionComponent<Props> = props => {
   /**
    * Component
    */
-
+  let b = Date.now()
+  console.log(b-a)
+  a=b
+  console.log(2)
   return (
     <div ref={container} className={styles.container}>
       <div ref={body} className={styles.body}>
         {logic.current && (
           <preact.Fragment>
-            {logic.current.pieces.map(piece => (
-              <GridSquare className={styles.piece} position={piece} />
+            <GridSquare
+              position={logic.current.pieces[0].position}
+              className={getPieceFillClassName(logic.current.pieces[0])}
+            >
+              <div className={styles.piece} style={{backgroundColor:'white'}} />
+            </GridSquare>
+
+            {logic.current.pieces.slice(1).map(piece => (
+              <GridSquare position={piece.position}>
+                <div className={styles.piece} />
+              </GridSquare>
             ))}
 
-            <GridSquare
-              key={logic.current.target.string}
-              className={styles.target}
-              position={logic.current.target}
-              color={targetColorQueue.current[0]}
-            />
+            {logic.current.lastTail && (
+              <GridSquare
+                position={logic.current.lastTail.position}
+                className={clsx(styles.tail, getPieceFillClassName(logic.current.lastTail))}
+              >
+                <div className={styles.piece} style={{backgroundColor: 'white'}} />
+              </GridSquare>
+            )}
+
+            <GridSquare position={logic.current.target}>
+              <div
+                key={logic.current.target.string}
+                className={styles.target}
+                style={{ backgroundColor: targetColorQueue.current[0] }}
+              />
+            </GridSquare>
           </preact.Fragment>
         )}
       </div>
