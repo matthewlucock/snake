@@ -1,9 +1,10 @@
 import * as preact from 'preact'
 import { useState, useRef, useCallback, useEffect, useLayoutEffect } from 'preact/hooks'
-import clsx from 'clsx'
 
-import { GameBar } from './components/game-bar'
 import { Game, getMaximumGridSizeFromContainer } from './game'
+
+import { MainScreen } from './components/main-screen'
+import { GameBar } from './components/game-bar'
 
 import 'ress'
 import styles from './main.scss'
@@ -78,13 +79,7 @@ const App: preact.FunctionComponent = () => {
 
   return (
     <preact.Fragment>
-      <div className={clsx(styles.mainScreen, !playing && styles.visible)}>
-        <div className={styles.title}>{gameOver ? 'game over' : 'snake'}</div>
-        {!gameOver && highScore > 0 && (
-          <div>high score: {highScore}</div>
-        )}
-        <div className={styles.playButton} onClick={play}>play</div>
-      </div>
+      <MainScreen playing={playing} gameOver={gameOver} highScore={highScore} play={play} />
 
       <div className={styles.gameWrapper}>
         <GameBar

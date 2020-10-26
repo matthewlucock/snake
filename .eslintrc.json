@@ -5,6 +5,7 @@
 
   "rules": {
     "max-len": [ "error", { "code": 100, "ignoreStrings": true } ],
-    "no-console": "error"
+    "no-console": "error",
+    "react/jsx-handler-names": "off"
   }
 }
