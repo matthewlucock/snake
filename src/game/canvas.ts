@@ -1,32 +1,34 @@
 import { Vector } from './vector'
 
 export class Canvas {
-  public readonly element: HTMLCanvasElement
-  private readonly ctx: CanvasRenderingContext2D
+  public readonly element: HTMLCanvasElement = document.createElement('canvas')
+  private readonly ctx = this.element.getContext('2d') as CanvasRenderingContext2D
+  private readonly canvasSize: Vector = this.gridSize.scale(this.gridSquareSize)
 
-  public constructor (private readonly size: Vector) {
-    this.element = document.createElement('canvas')
-    this.element.width = size.x
-    this.element.height = size.y
+  private readonly circleRadius: number = this.gridSquareSize / 2
 
-    this.ctx = this.element.getContext('2d') as CanvasRenderingContext2D
+  public constructor (private readonly gridSize: Vector, private readonly gridSquareSize: number) {
+    this.element.width = this.canvasSize.x
+    this.element.height = this.canvasSize.y
   }
 
-  public drawSquare ({ x, y }: Vector, size: number, color: string): void {
+  public drawSquare (position: Vector, color: string): void {
     this.ctx.fillStyle = color
-    this.ctx.fillRect(x, y, size, size)
+
+    const { x, y } = position.scale(this.gridSquareSize)
+    this.ctx.fillRect(x, y, this.gridSquareSize, this.gridSquareSize)
   }
 
-  public drawCircle ({ x, y }: Vector, size: number, color: string): void {
-    const radius = size / 2
-    this.ctx.beginPath()
-    this.ctx.arc(x + radius, y + radius, radius, 0, 2 * Math.PI)
+  public drawCircle (position: Vector, color: string): void {
+    const { x, y } = position.scale(this.gridSquareSize)
 
+    this.ctx.beginPath()
+    this.ctx.arc(x + this.circleRadius, y + this.circleRadius, this.circleRadius, 0, 2 * Math.PI)
     this.ctx.fillStyle = color
     this.ctx.fill()
   }
 
   public clear (): void {
-    this.ctx.clearRect(0, 0, this.size.x, this.size.y)
+    this.ctx.clearRect(0, 0, this.canvasSize.x, this.canvasSize.y)
   }
 }
