@@ -1,9 +1,9 @@
 export class Clock {
-  public running: boolean = false
-  public tickDuration: number = Infinity
-  private lastTickTime: number = 0
+  public running = false
+  public tickDuration = Infinity
+  private lastTickTime = 0
 
-  public tick: () => void = () => {}
+  public tick = (): void => {}
 
   private readonly loop = (time: number): void => {
     if (!this.running) return

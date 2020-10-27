@@ -5,28 +5,42 @@ import { Vector } from './vector'
 import { DIRECTION_KEYS } from './direction'
 import { Clock } from './clock'
 import { Logic } from './logic'
-import { Canvas } from './canvas'
 
-const GRID_SQUARE_SIZE = 30
-export const getMaximumGridSizeFromContainer = (container: HTMLElement): Vector => (
+import styles from './styles.scss'
+
+const GRID_SQUARE_SIZE: number = 30
+const SNAKE_COLOR = 'hsl(0, 0%, 90%)'
+const GRID_PATTERN_COLOR = 'hsl(0, 0%, 100%)'
+const GRID_PATTERN_ALPHA = 0.02
+const TARGET_COLORS: readonly string[] = [50, 150, 200, 300].map(h => `hsl(${h}, 100%, 40%)`)
+
+const GRID_CIRCLE_RADIUS = GRID_SQUARE_SIZE / 2
+
+const getGridSizeFromContainer = (container: HTMLElement): Vector => (
   new Vector(container.clientWidth, container.clientHeight).scale(1 / GRID_SQUARE_SIZE).floor()
 )
 
-const SNAKE_COLOR = 'hsl(0, 0%, 90%)'
-const GRID_PATTERN_COLOR = 'hsla(0, 0%, 100%, 0.02)'
-
-const getTargetColor = (h: number): string => `hsl(${h}, 100%, 40%)`
-const TARGET_COLORS = [50, 150, 200, 300].map(getTargetColor)
-
 export class Game {
-  private readonly logic = new Logic(this.gridSize)
   private readonly clock = new Clock()
-  public readonly canvas: Canvas = new Canvas(this.gridSize, GRID_SQUARE_SIZE)
+  private readonly logic: Logic
+  private readonly canvas = document.createElement('canvas')
+  private readonly ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D
   public readonly emitter = mitt()
 
-  private readonly targetColorQueue = shuffleArray(TARGET_COLORS)
+  private readonly gridSize: Vector
+  private readonly targetColorQueue = shuffleArray(TARGET_COLORS.slice())
 
-  public constructor (private readonly gridSize: Vector) {
+  public constructor (container: HTMLElement) {
+    this.gridSize = getGridSizeFromContainer(container)
+    this.logic = new Logic(this.gridSize)
+
+    this.canvas.className = styles.canvas
+
+    const canvasSize = this.gridSize.scale(GRID_SQUARE_SIZE)
+    this.canvas.width = canvasSize.x
+    this.canvas.height = canvasSize.y
+
+    container.append(this.canvas)
     this.draw()
   }
 
@@ -60,11 +74,65 @@ export class Game {
     this.emitter.emit('target-reached')
   }
 
-  public init (): void {
-    document.addEventListener('keyup', event => this.onKeyUp(event))
+  private drawGrid (): void {
+    this.ctx.save()
+    this.ctx.globalAlpha = GRID_PATTERN_ALPHA
+    this.ctx.beginPath()
+
+    for (let y = 0; y < this.gridSize.y; y++) {
+      for (let x = (y + 1) % 2; x < this.gridSize.x; x += 2) {
+        this.ctx.rect(
+          x * GRID_SQUARE_SIZE,
+          y * GRID_SQUARE_SIZE,
+          GRID_SQUARE_SIZE,
+          GRID_SQUARE_SIZE
+        )
+      }
+    }
+
+    this.ctx.fillStyle = GRID_PATTERN_COLOR
+    this.ctx.fill()
+    this.ctx.restore()
   }
 
-  private onKeyUp ({ key }: KeyboardEvent): void {
+  private drawSnake (): void {
+    this.ctx.save()
+    this.ctx.beginPath()
+
+    for (const piece of this.logic.pieces) {
+      const { x, y } = piece.scale(GRID_SQUARE_SIZE)
+      this.ctx.rect(x, y, GRID_SQUARE_SIZE, GRID_SQUARE_SIZE)
+    }
+
+    this.ctx.fillStyle = SNAKE_COLOR
+    this.ctx.fill()
+    this.ctx.restore()
+  }
+
+  private drawTarget (): void {
+    this.ctx.save()
+    this.ctx.beginPath()
+
+    const { x, y } = this.logic.target.scale(GRID_SQUARE_SIZE)
+    this.ctx.arc(x + GRID_CIRCLE_RADIUS, y + GRID_CIRCLE_RADIUS, GRID_CIRCLE_RADIUS, 0, 2 * Math.PI)
+
+    this.ctx.fillStyle = this.targetColorQueue[0]
+    this.ctx.fill()
+    this.ctx.restore()
+  }
+
+  private draw (): void {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this.drawGrid()
+    this.drawSnake()
+    this.drawTarget()
+  }
+
+  public init (): void {
+    document.addEventListener('keyup', this.onKeyUp)
+  }
+
+  private readonly onKeyUp = ({ key }: KeyboardEvent): void => {
     for (const [direction, directionKeys] of DIRECTION_KEYS) {
       if (directionKeys.includes(key)) {
         this.logic.setDirection(direction)
@@ -75,25 +143,9 @@ export class Game {
     if (!this.clock.running && this.logic.direction !== null) this.start()
   }
 
-  private drawGrid (): void {
-    for (let y = 0; y < this.gridSize.y; y++) {
-      for (let x = 0; x < this.gridSize.x; x++) {
-        if ((x + y) % 2 === 0) continue
-        this.canvas.drawSquare(new Vector(x, y), GRID_PATTERN_COLOR)
-      }
-    }
-  }
-
-  private draw (): void {
-    this.canvas.clear()
-
-    this.drawGrid()
-    for (const piece of this.logic.pieces) this.canvas.drawSquare(piece, SNAKE_COLOR)
-    this.canvas.drawCircle(this.logic.target, this.targetColorQueue[0])
-  }
-
   public destroy (): void {
-    this.canvas.element.remove()
+    this.canvas.remove()
+    document.removeEventListener('keyup', this.onKeyUp)
     this.emitter.all.clear()
   }
 }

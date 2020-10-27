@@ -22,5 +22,5 @@ export class Vector {
   }
 }
 
-export const UNIT_VECTOR_X: Vector = new Vector(1, 0)
-export const UNIT_VECTOR_Y: Vector = new Vector(0, 1)
+export const UNIT_VECTOR_X = new Vector(1, 0)
+export const UNIT_VECTOR_Y = new Vector(0, 1)

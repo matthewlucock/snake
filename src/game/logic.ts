@@ -4,17 +4,16 @@ import { DIRECTION_VECTORS, OPPOSITE_DIRECTIONS } from './direction'
 
 export class Logic {
   public readonly pieces: Vector[]
-  public direction: Direction | null
+  public direction: Direction | null = null
   private head: Vector
   public target: Vector
 
-  public targetReached: boolean = false
-  public gameOver: boolean = false
+  public targetReached = false
+  public gameOver = false
 
   public constructor (private readonly size: Vector) {
     this.head = size.scale(1 / 2).floor()
     this.pieces = [this.head]
-    this.direction = null
     this.target = this.getNewTarget()
   }
 

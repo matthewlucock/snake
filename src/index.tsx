@@ -1,7 +1,7 @@
 import * as preact from 'preact'
 import { useState, useRef, useCallback, useEffect, useLayoutEffect } from 'preact/hooks'
 
-import { Game, getMaximumGridSizeFromContainer } from './game'
+import { Game } from './game'
 
 import { MainScreen } from './components/main-screen'
 import { GameBar } from './components/game-bar'
@@ -41,10 +41,7 @@ const App: preact.FunctionComponent = () => {
     if (!playing) return
 
     if (game.current !== null) game.current.destroy()
-    game.current = new Game(getMaximumGridSizeFromContainer(gameContainer.current))
-
-    game.current.canvas.element.className = styles.gameCanvas
-    gameContainer.current.append(game.current.canvas.element)
+    game.current = new Game(gameContainer.current)
 
     game.current.emitter.on('target-reached', onTargetReached)
     game.current.emitter.on('game-over', onGameOver)
