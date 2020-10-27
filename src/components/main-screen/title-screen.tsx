@@ -7,14 +7,12 @@ import { LabelledValue } from '../labelled-value'
 import styles from './styles.scss'
 
 type Props = Readonly<{
-  playing: boolean
-  gameOver: boolean
   highScore: number
   clearHighScore: () => void
   play: () => void
 }>
 
-export const MainScreen: preact.FunctionComponent<Props> = props => {
+export const TitleScreen: preact.FunctionComponent<Props> = props => {
   const originalHighScore = useRef<number>(0)
   const [confirm, setConfirm] = useState<boolean>(false)
 
@@ -32,21 +30,24 @@ export const MainScreen: preact.FunctionComponent<Props> = props => {
   const displayedHighScore = props.highScore > 0 ? props.highScore : originalHighScore.current
 
   return (
-    <div className={clsx(styles.container, !props.playing && styles.visible)}>
-      <div className={styles.title}>{props.gameOver ? 'game over' : 'snake'}</div>
+    <preact.Fragment>
+      <div className={styles.title}>snake</div>
 
-      {!props.gameOver && showHighScoreContainer && (
+      {showHighScoreContainer && (
         <div
-          className={clsx(styles.highScoreContainer, props.highScore > 0 && styles.highScoreExists)}
+          className={clsx(
+            styles.titleScreenHighScoreContainer,
+            props.highScore > 0 && styles.highScoreExists
+          )}
         >
           <LabelledValue label='high score'>{displayedHighScore}</LabelledValue>
-          <div className={styles.clearHighScore} onClick={clearHighScore}>
+          <div className={styles.titleScreenClearHighScore} onClick={clearHighScore}>
             {confirm ? 'sure?' : 'clear'}
           </div>
         </div>
       )}
 
       <div className={styles.playButton} onClick={props.play}>play</div>
-    </div>
+    </preact.Fragment>
   )
 }

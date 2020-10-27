@@ -7,15 +7,41 @@ $lighter-background: color.adjust($main-background, $lightness: +10%);
 $lightest-background: color.adjust($main-background, $lightness: +15%);
 $snake-background: color.adjust($main-background, $lightness: -5%);
 
+$subtle-opacity: .5;
 $game-bar-height: 10vh;
 
-%button {
+%base-button {
   background: $lighter-background;
+  text-align: center;
   cursor: pointer;
   transition-property: background;
   transition-duration: $transition-duration;
 
   &:hover {
     background: $lightest-background;
+  }
+}
+
+%button {
+  @extend %base-button;
+  padding: .5em 1em;
+  border-radius: 2em;
+}
+
+%compact-button {
+  @extend %base-button;
+  font-size: .9em;
+  padding: .25em .5em;
+  border-radius: 1em;
+}
+
+%subtle-button {
+  font-size: .6em;
+  padding: .25em .5em;
+  opacity: .5;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
   }
 }

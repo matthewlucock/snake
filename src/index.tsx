@@ -1,9 +1,11 @@
 import * as preact from 'preact'
 import { useState, useRef, useCallback, useEffect, useLayoutEffect } from 'preact/hooks'
+import clsx from 'clsx'
 
 import { Game } from './game'
 
-import { MainScreen } from './components/main-screen'
+import { TitleScreen } from './components/main-screen/title-screen'
+import { GameOverScreen } from './components/main-screen/game-over-screen'
 import { GameBar } from './components/game-bar'
 
 import 'ress'
@@ -28,6 +30,7 @@ const App: preact.FunctionComponent = () => {
   const play = useCallback((): void => {
     setScore(0)
     setOriginalHighScore(highScore)
+    setGameOver(false)
     setPlaying(true)
   }, [highScore])
 
@@ -79,15 +82,25 @@ const App: preact.FunctionComponent = () => {
    * Component
    */
 
+  const clearGameOver = useCallback((): void => {
+    setGameOver(false)
+  }, [])
+
+  const highScoreBeaten = highScore > originalHighScore
+
   return (
     <preact.Fragment>
-      <MainScreen
-        playing={playing}
-        gameOver={gameOver}
-        highScore={highScore}
-        clearHighScore={clearHighScore}
-        play={play}
-      />
+      <div className={clsx(styles.mainScreen, !playing && styles.visible)}>
+        {gameOver ? (
+          <GameOverScreen
+            score={score}
+            highScore={highScore}
+            highScoreBeaten={highScoreBeaten}
+            play={play}
+            clearGameOver={clearGameOver}
+          />
+        ) : <TitleScreen highScore={highScore} clearHighScore={clearHighScore} play={play} />}
+      </div>
 
       <div className={styles.gameWrapper}>
         <GameBar

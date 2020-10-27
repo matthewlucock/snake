@@ -1,39 +1,25 @@
 @use '../../globals' as *;
 
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: $main-background;
-  visibility: hidden;
-  opacity: 0;
-  z-index: 2;
-  transition-property: visibility, opacity;
-  transition-duration: $transition-duration;
-
-  &.visible {
-    visibility: visible;
-    opacity: 1;
-  }
-}
-
 .title {
   font-size: 4em;
   height: 1em;
   margin-bottom: .375em;
 }
 
-.highScoreContainer {
+.scoreContainer {
   font-size: .8em;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.playButton {
+  @extend %button;
+  margin-top: 1.5em;
+}
+
+.titleScreenHighScoreContainer {
+  @extend .scoreContainer;
   visibility: hidden;
   opacity: 0;
   transition-property: visibility, opacity;
@@ -45,19 +31,18 @@
   }
 }
 
-.clearHighScore {
-  @extend %button;
-  font-size: .9em;
+.titleScreenClearHighScore {
+  @extend %compact-button;
   width: 3.5em;
-  padding: .25em .5em;
   margin-top: .25em;
-  border-radius: 1em;
-  text-align: center;
 }
 
-.playButton {
-  @extend %button;
-  padding: .5em 1em;
-  margin-top: 1.5em;
-  border-radius: 2em;
+.gameOverScreenHighScore {
+  font-size: .75em;
+  margin-top: 0.25em;
+}
+
+.gameOverScreenCancel {
+  @extend %subtle-button;
+  margin-top: .25em;
 }
