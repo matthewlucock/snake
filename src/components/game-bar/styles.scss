@@ -20,12 +20,13 @@ $high-score-animation-duration: $transition-duration * 4;
 }
 
 .originalHighScore {
-  $width: 6em;
+  $width: 7em;
 
+  display: flex;
+  justify-content: center;
   position: absolute;
   left: -($width / 2);
   width: $width;
-  text-align: center;
   color: white;
   transition-property: left;
   transition-duration: $high-score-animation-duration;
