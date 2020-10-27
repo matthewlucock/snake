@@ -64,6 +64,7 @@ const App: preact.FunctionComponent = () => {
     if (Number.isNaN(score) || score < 0) return
 
     setHighScore(score)
+    setOriginalHighScore(score)
   }, [])
 
   useEffect(() => {
