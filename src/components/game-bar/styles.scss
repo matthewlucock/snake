@@ -27,7 +27,6 @@ $high-score-animation-duration: $transition-duration * 4;
   position: absolute;
   left: -($width / 2);
   width: $width;
-  color: white;
   transition-property: left;
   transition-duration: $high-score-animation-duration;
 
@@ -39,7 +38,7 @@ $high-score-animation-duration: $transition-duration * 4;
 .highScoreBeatenMessage {
   @keyframes in {
     from { opacity: 0 }
-    to { opacity: .75 }
+    to { opacity: 1 }
   }
 
   position: absolute;

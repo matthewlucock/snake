@@ -13,7 +13,7 @@ export const getMaximumGridSizeFromContainer = (container: HTMLElement): Vector 
 )
 
 const SNAKE_COLOR = 'hsl(0, 0%, 90%)'
-const GRID_PATTERN_COLOR = 'hsla(0, 0%, 100%, 0.01)'
+const GRID_PATTERN_COLOR = 'hsla(0, 0%, 100%, 0.02)'
 
 const getTargetColor = (h: number): string => `hsl(${h}, 100%, 40%)`
 const TARGET_COLORS = [50, 150, 200, 300].map(getTargetColor)
