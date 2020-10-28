@@ -9,19 +9,24 @@ import { GameOverScreen } from './components/main-screen/game-over-screen'
 import { GameBar } from './components/game-bar'
 
 import 'ress'
+import globalStyles from './globals.scss'
 import styles from './main.scss'
 
+import MoonSolid from '../assets/moon-solid.svg'
+import MoonRegular from '../assets/moon-regular.svg'
+
 const HIGH_SCORE_STORAGE_KEY = 'high-score'
+const LIGHT_THEME_STORAGE_KEY = 'light-theme'
 
 const App: preact.FunctionComponent = () => {
-  const [playing, setPlaying] = useState<boolean>(false)
-  const [gameOver, setGameOver] = useState<boolean>(false)
-  const [score, setScore] = useState<number>(0)
-  const [highScore, setHighScore] = useState<number>(0)
-  const [originalHighScore, setOriginalHighScore] = useState<number>(0)
-
   const gameContainer = useRef<HTMLDivElement>()
   const game = useRef<Game | null>(null)
+
+  const [playing, setPlaying] = useState(false)
+  const [gameOver, setGameOver] = useState(false)
+  const [score, setScore] = useState(0)
+  const [highScore, setHighScore] = useState(0)
+  const [originalHighScore, setOriginalHighScore] = useState(0)
 
   /**
    * Game control
@@ -43,12 +48,13 @@ const App: preact.FunctionComponent = () => {
   useLayoutEffect(() => {
     if (!playing) return
 
-    if (game.current !== null) game.current.destroy()
+    game.current?.destroy()
     game.current = new Game(gameContainer.current)
 
     game.current.emitter.on('target-reached', onTargetReached)
     game.current.emitter.on('game-over', onGameOver)
 
+    game.current.setLightTheme(lightTheme)
     game.current.init()
   }, [playing])
 
@@ -80,6 +86,32 @@ const App: preact.FunctionComponent = () => {
   }, [])
 
   /**
+   * Theme
+   */
+
+  const [lightTheme, setLightTheme] = useState(false)
+
+  useLayoutEffect((): void => {
+    const rawLightTheme = localStorage.getItem(LIGHT_THEME_STORAGE_KEY)
+    if (rawLightTheme === null) return
+
+    const parsedLightTheme = JSON.parse(rawLightTheme)
+    if (typeof parsedLightTheme !== 'boolean') return
+
+    setLightTheme(parsedLightTheme)
+  }, [])
+
+  useLayoutEffect((): void => {
+    document.documentElement.classList.toggle(styles.lightTheme, lightTheme)
+    game.current?.setLightTheme(lightTheme)
+    localStorage.setItem(LIGHT_THEME_STORAGE_KEY, JSON.stringify(lightTheme))
+  }, [lightTheme])
+
+  const toggleTheme = useCallback((): void => {
+    setLightTheme(lightTheme => !lightTheme)
+  }, [])
+
+  /**
    * Component
    */
 
@@ -91,6 +123,12 @@ const App: preact.FunctionComponent = () => {
 
   return (
     <preact.Fragment>
+      <div className={styles.changeTheme} onClick={toggleTheme}>
+        {lightTheme ? <MoonRegular className={globalStyles.icon} /> : (
+          <MoonSolid className={globalStyles.icon} />
+        )}
+      </div>
+
       <div className={clsx(styles.mainScreen, !playing && styles.visible)}>
         {gameOver ? (
           <GameOverScreen

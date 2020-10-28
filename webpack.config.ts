@@ -23,7 +23,8 @@ const config: webpack.Configuration = {
           'sass-loader'
         ]
       },
-      { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'] }
+      { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'] },
+      { test: /\.svg$/, use: ['preact-svg-loader'] }
     ]
   },
 

@@ -1,11 +1,41 @@
+@use 'sass:color';
 @use 'globals' as *;
+
+@function get-variables($color) {
+  $modifier: 1;
+  @if color.lightness($color) > 50% {
+    $modifier: -1;
+  }
+
+  $main-background: color.adjust($color, $lightness: 15% * $modifier);
+
+  @return (
+    'main-background': $main-background,
+    'text-color': color.adjust($color, $lightness: 100% * $modifier),
+    'lighter-background': color.adjust($main-background, $lightness: 10% * $modifier),
+    'lightest-background': color.adjust($main-background, $lightness: 15% * $modifier),
+    'snake-background': color.adjust($main-background, $lightness: -5% * $modifier)
+  );
+}
+
+:root {
+  @each $name, $value in get-variables(black) {
+    --#{$name}: #{$value};
+  }
+
+  &.lightTheme {
+    @each $name, $value in get-variables(white) {
+      --#{$name}: #{$value};
+    }
+  }
+}
 
 body {
   font-size: 30px;
   font-family: sans-serif;
   font-weight: lighter;
-  background: $main-background;
-  color: white;
+  background: var(--main-background);
+  color: var(--text-color);
   user-select: none;
 }
 
@@ -19,7 +49,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  background: $main-background;
+  background: var(--main-background);
   visibility: hidden;
   opacity: 0;
   z-index: 2;
@@ -39,4 +69,16 @@ body {
 
 .gameContainer {
   height: 100vh - $game-bar-height;
+}
+
+.changeTheme {
+  $font-size: .75em;
+  font-size: $font-size;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: .25em;
+  line-height: $font-size;
+  z-index: 3;
+  cursor: pointer;
 }

@@ -8,13 +8,16 @@ import { Logic } from './logic'
 
 import styles from './styles.scss'
 
-const GRID_SQUARE_SIZE: number = 30
-const SNAKE_COLOR = 'hsl(0, 0%, 90%)'
-const GRID_PATTERN_COLOR = 'hsl(0, 0%, 100%)'
-const GRID_PATTERN_ALPHA = 0.02
-const TARGET_COLORS: readonly string[] = [50, 150, 200, 300].map(h => `hsl(${h}, 100%, 40%)`)
-
+const GRID_SQUARE_SIZE = 30
 const GRID_CIRCLE_RADIUS = GRID_SQUARE_SIZE / 2
+
+const SNAKE_COLOR_DARK = 'hsl(0, 0%, 90%)'
+const SNAKE_COLOR_LIGHT = 'hsl(0, 0%, 10%)'
+const GRID_PATTERN_COLOR_DARK = 'hsl(0, 0%, 100%)'
+const GRID_PATTERN_COLOR_LIGHT = 'hsl(0, 0%, 0%)'
+const GRID_PATTERN_ALPHA = 0.02
+
+const TARGET_COLORS: readonly string[] = [50, 150, 200, 300].map(h => `hsl(${h}, 100%, 35%)`)
 
 const getGridSizeFromContainer = (container: HTMLElement): Vector => (
   new Vector(container.clientWidth, container.clientHeight).scale(1 / GRID_SQUARE_SIZE).floor()
@@ -28,6 +31,8 @@ export class Game {
   public readonly emitter = mitt()
 
   private readonly gridSize: Vector
+  private snakeColor = SNAKE_COLOR_DARK
+  private gridPatternColor = GRID_PATTERN_COLOR_LIGHT
   private readonly targetColorQueue = shuffleArray(TARGET_COLORS.slice())
 
   public constructor (container: HTMLElement) {
@@ -90,7 +95,7 @@ export class Game {
       }
     }
 
-    this.ctx.fillStyle = GRID_PATTERN_COLOR
+    this.ctx.fillStyle = this.gridPatternColor
     this.ctx.fill()
     this.ctx.restore()
   }
@@ -104,7 +109,7 @@ export class Game {
       this.ctx.rect(x, y, GRID_SQUARE_SIZE, GRID_SQUARE_SIZE)
     }
 
-    this.ctx.fillStyle = SNAKE_COLOR
+    this.ctx.fillStyle = this.snakeColor
     this.ctx.fill()
     this.ctx.restore()
   }
@@ -141,6 +146,18 @@ export class Game {
     }
 
     if (!this.clock.running && this.logic.direction !== null) this.start()
+  }
+
+  public setLightTheme (lightTheme: boolean): void {
+    if (lightTheme) {
+      this.snakeColor = SNAKE_COLOR_LIGHT
+      this.gridPatternColor = GRID_PATTERN_COLOR_LIGHT
+    } else {
+      this.snakeColor = SNAKE_COLOR_DARK
+      this.gridPatternColor = GRID_PATTERN_COLOR_DARK
+    }
+
+    this.draw()
   }
 
   public destroy (): void {

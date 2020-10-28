@@ -1,24 +1,14 @@
-@use 'sass:color';
-
 $transition-duration: .25s;
-
-$main-background: color.adjust(black, $lightness: 15%);
-$lighter-background: color.adjust($main-background, $lightness: +10%);
-$lightest-background: color.adjust($main-background, $lightness: +15%);
-$snake-background: color.adjust($main-background, $lightness: -5%);
-
 $subtle-opacity: .5;
 $game-bar-height: 10vh;
 
 %base-button {
-  background: $lighter-background;
+  background: var(--lighter-background);
   text-align: center;
   cursor: pointer;
-  transition-property: background;
-  transition-duration: $transition-duration;
 
   &:hover {
-    background: $lightest-background;
+    background: var(--lightest-background);
   }
 }
 
@@ -44,4 +34,9 @@ $game-bar-height: 10vh;
   &:hover {
     text-decoration: underline;
   }
+}
+
+.icon {
+  width: 1em;
+  fill: currentColor;
 }
