@@ -1,0 +1,14 @@
+@use '../../globals' as *;
+
+.container {
+  font-size: .6em;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: .25em;
+}
+
+.heart {
+  font-size: .7em;
+  width: 1.1em;
+}

@@ -44,6 +44,15 @@ svg {
   fill: currentColor;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .mainScreen {
   display: flex;
   flex-direction: column;
@@ -82,7 +91,7 @@ svg {
   position: absolute;
   top: 0;
   right: 0;
-  padding: .25em;
+  padding: .5em;
   line-height: $font-size;
   z-index: 3;
   cursor: pointer;

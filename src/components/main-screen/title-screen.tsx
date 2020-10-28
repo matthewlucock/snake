@@ -4,6 +4,7 @@ import clsx from 'clsx'
 
 import styles from './styles.scss'
 import { LabelledValue } from '../labelled-value'
+import { DeveloperMessage } from '../developer-message'
 
 type Props = Readonly<{
   highScore: number
@@ -47,6 +48,8 @@ export const TitleScreen: preact.FunctionComponent<Props> = props => {
       )}
 
       <div className={styles.playButton} onClick={props.play}>play</div>
+
+      <DeveloperMessage />
     </preact.Fragment>
   )
 }
