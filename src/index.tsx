@@ -35,7 +35,6 @@ const App: preact.FunctionComponent = () => {
   const play = useCallback((): void => {
     setScore(0)
     setOriginalHighScore(highScore)
-    setGameOver(false)
     setPlaying(true)
   }, [highScore])
 
