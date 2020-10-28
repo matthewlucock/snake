@@ -2,15 +2,14 @@ import * as preact from 'preact'
 import { useState, useRef, useCallback, useEffect, useLayoutEffect } from 'preact/hooks'
 import clsx from 'clsx'
 
+import 'ress'
+import styles from './main.scss'
+
 import { Game } from './game'
 
 import { TitleScreen } from './components/main-screen/title-screen'
 import { GameOverScreen } from './components/main-screen/game-over-screen'
 import { GameBar } from './components/game-bar'
-
-import 'ress'
-import globalStyles from './globals.scss'
-import styles from './main.scss'
 
 import MoonSolid from '../assets/moon-solid.svg'
 import MoonRegular from '../assets/moon-regular.svg'
@@ -123,9 +122,7 @@ const App: preact.FunctionComponent = () => {
   return (
     <preact.Fragment>
       <div className={styles.changeTheme} onClick={toggleTheme}>
-        {lightTheme ? <MoonRegular className={globalStyles.icon} /> : (
-          <MoonSolid className={globalStyles.icon} />
-        )}
+        {lightTheme ? <MoonRegular /> : <MoonSolid />}
       </div>
 
       <div className={clsx(styles.mainScreen, !playing && styles.visible)}>

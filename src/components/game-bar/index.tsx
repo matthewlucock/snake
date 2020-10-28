@@ -1,9 +1,8 @@
 import * as preact from 'preact'
 import clsx from 'clsx'
 
-import { LabelledValue } from '../labelled-value'
-
 import styles from './styles.scss'
+import { LabelledValue } from '../labelled-value'
 
 type Props = Readonly<{
   score: number

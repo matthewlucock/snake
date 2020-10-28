@@ -39,6 +39,11 @@ body {
   user-select: none;
 }
 
+svg {
+  width: 1em;
+  fill: currentColor;
+}
+
 .mainScreen {
   display: flex;
   flex-direction: column;
