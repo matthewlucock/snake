@@ -1,5 +1,5 @@
 $transition-duration: .25s;
-$subtle-opacity: .5;
+$subtle-text-color: hsl(0, 0%, 50%);
 $game-bar-height: 10vh;
 
 %base-button {
@@ -28,7 +28,7 @@ $game-bar-height: 10vh;
 %subtle-button {
   font-size: .6em;
   padding: .25em .5em;
-  opacity: .5;
+  color: $subtle-text-color;
   cursor: pointer;
 
   &:hover {
