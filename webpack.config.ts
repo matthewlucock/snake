@@ -18,7 +18,12 @@ const config: webpack.Configuration = {
         test: /\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,
-          { loader: 'css-loader', options: { modules: true } },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: { localIdentName: '[hash:base64:5]' }
+            }
+          },
           { loader: 'postcss-loader', options: { plugins: [require('autoprefixer')] } },
           'sass-loader'
         ]
