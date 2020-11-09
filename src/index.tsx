@@ -5,8 +5,8 @@ import clsx from 'clsx'
 import 'ress'
 import styles from './main.scss'
 
+import { getStorageKey } from './util'
 import { Game } from './game'
-
 import { TitleScreen } from './components/main-screen/title-screen'
 import { GameOverScreen } from './components/main-screen/game-over-screen'
 import { GameBar } from './components/game-bar'
@@ -14,8 +14,8 @@ import { GameBar } from './components/game-bar'
 import MoonSolid from 'assets/moon-solid.svg'
 import MoonRegular from 'assets/moon-regular.svg'
 
-const HIGH_SCORE_STORAGE_KEY = 'high-score'
-const LIGHT_THEME_STORAGE_KEY = 'light-theme'
+const HIGH_SCORE_STORAGE_KEY = getStorageKey('high-score')
+const LIGHT_THEME_STORAGE_KEY = getStorageKey('light-theme')
 
 const App: preact.FunctionComponent = () => {
   const gameContainer = useRef<HTMLDivElement>()

@@ -1,3 +1,5 @@
+export const getStorageKey = (key: string): string => `matthewlucock/snake/${key}`
+
 export const shuffleArray = <T>(originalArray: readonly T[]): T[] => {
   const copy = originalArray.slice()
   const newArray = []
