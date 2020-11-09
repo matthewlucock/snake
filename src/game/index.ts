@@ -1,6 +1,6 @@
 import mitt from 'mitt'
-import shuffleArray from 'shuffle-array'
 
+import { shuffleArray } from 'snake/util'
 import { Vector } from './vector'
 import { DIRECTION_KEYS } from './direction'
 import { Clock } from './clock'
@@ -33,7 +33,7 @@ export class Game {
   private readonly gridSize: Vector
   private snakeColor = SNAKE_COLOR_DARK
   private gridPatternColor = GRID_PATTERN_COLOR_LIGHT
-  private readonly targetColorQueue = shuffleArray(TARGET_COLORS.slice())
+  private readonly targetColorQueue = shuffleArray(TARGET_COLORS)
 
   public constructor (container: HTMLElement) {
     this.gridSize = getGridSizeFromContainer(container)
