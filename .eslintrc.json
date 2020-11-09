@@ -1,10 +1,10 @@
 {
-  "extends": [ "standard-with-typescript", "standard-jsx" ],
+  "extends": ["standard-with-typescript", "standard-jsx"],
   "parserOptions": { "project": "./tsconfig.json" },
   "ignorePatterns": ["dist"],
 
   "rules": {
-    "max-len": [ "error", { "code": 100, "ignoreStrings": true } ],
+    "max-len": ["error", { "code": 100, "ignoreStrings": true }],
     "no-console": "error",
     "react/jsx-handler-names": "off"
   }
