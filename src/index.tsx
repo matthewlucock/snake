@@ -11,8 +11,8 @@ import { TitleScreen } from './components/main-screen/title-screen'
 import { GameOverScreen } from './components/main-screen/game-over-screen'
 import { GameBar } from './components/game-bar'
 
-import MoonSolid from '../assets/moon-solid.svg'
-import MoonRegular from '../assets/moon-regular.svg'
+import MoonSolid from 'assets/moon-solid.svg'
+import MoonRegular from 'assets/moon-regular.svg'
 
 const HIGH_SCORE_STORAGE_KEY = 'high-score'
 const LIGHT_THEME_STORAGE_KEY = 'light-theme'

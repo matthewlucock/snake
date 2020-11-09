@@ -2,7 +2,7 @@ import * as preact from 'preact'
 import clsx from 'clsx'
 
 import styles from './styles.scss'
-import { LabelledValue } from '../labelled-value'
+import { LabelledValue } from 'snake/components/labelled-value'
 
 type Props = Readonly<{
   score: number

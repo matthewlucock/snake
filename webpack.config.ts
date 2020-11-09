@@ -1,15 +1,23 @@
 import path from 'path'
 
 import webpack from 'webpack'
+import autoprefixer from 'autoprefixer'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+
+const SRC = path.resolve(__dirname, 'src')
+const ASSETS = path.resolve(__dirname, 'assets')
+const DIST = path.resolve(__dirname, 'dist')
 
 const config: webpack.Configuration = {
   mode: 'production',
-  entry: path.resolve('src/index.tsx'),
-  output: { path: path.resolve('dist') },
-  resolve: { extensions: ['.js', '.ts', '.tsx'] },
+  entry: path.resolve(SRC, 'index.tsx'),
+  output: { path: DIST },
+  resolve: {
+    extensions: ['.js', '.ts', '.tsx'],
+    alias: { snake: SRC, assets: ASSETS }
+  },
 
   module: {
     rules: [
@@ -21,15 +29,26 @@ const config: webpack.Configuration = {
           {
             loader: 'css-loader',
             options: {
-              modules: { localIdentName: '[hash:base64:5]' }
+              modules: {
+                exportLocalsConvention: 'camelCaseOnly',
+                localIdentName: '[hash:base64:5]'
+              }
             }
           },
-          { loader: 'postcss-loader', options: { plugins: [require('autoprefixer')] } },
-          'sass-loader'
+          {
+            loader: 'postcss-loader',
+            options: { plugins: [autoprefixer] }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: { includePaths: [SRC] }
+            }
+          }
         ]
       },
       { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'] },
-      { test: /\.svg$/, use: ['preact-svg-loader'] }
+      { test: /\.svg$/, use: 'preact-svg-loader' }
     ]
   },
 
@@ -37,7 +56,7 @@ const config: webpack.Configuration = {
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve('src/index.html'),
+      template: path.resolve(SRC, 'index.html'),
       inject: 'head',
       scriptLoading: 'defer'
     })

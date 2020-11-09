@@ -3,8 +3,8 @@ import { useRef, useState } from 'preact/hooks'
 import clsx from 'clsx'
 
 import styles from './styles.scss'
-import { LabelledValue } from '../labelled-value'
-import { DeveloperMessage } from '../developer-message'
+import { LabelledValue } from 'snake/components/labelled-value'
+import { DeveloperMessage } from 'snake/components/developer-message'
 
 type Props = Readonly<{
   highScore: number
