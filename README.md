@@ -1,1 +1,1 @@
-# snake ![Build status](https://github.com/matthewlucock/snake/workflows/Build/badge.svg)
+# 🐍 snake ![Build status](https://github.com/matthewlucock/snake/workflows/Build/badge.svg)

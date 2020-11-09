@@ -31,7 +31,7 @@ export const TitleScreen: preact.FunctionComponent<Props> = props => {
 
   return (
     <preact.Fragment>
-      <div className={styles.title}>snake</div>
+      <div className={styles.title}>🐍 snake</div>
 
       {showHighScoreContainer && (
         <div
